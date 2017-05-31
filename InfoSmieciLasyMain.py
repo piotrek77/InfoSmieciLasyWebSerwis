@@ -37,6 +37,7 @@ def get_dodaj():
   android_id = request.args.get('android_id')
   nazwaZdjecia = request.args.get('nazwaZdjecia')
   sieczka = request.args.get('sieczka')
+  dokladnosc = request.args.get('dokladnosc')
   #sprawdzamy czy sieczka gra
   conn = sqlite3.connect('InfoSmieciLasyDB.db')
   #zapytanie = "SELECT token FROM tokeny WHERE urzadzenie_id ='"+urzadzenie_id+"'"
@@ -57,7 +58,7 @@ def get_dodaj():
   
   #if sieczka gra
   if 1==1:#sieczka==sieczkaMoja:
-    zapytanie = "INSERT INTO wspolrzedne (lat,lng,android_id,nazwaZdjecia) VALUES ('"+lat+"','"+lng+"','"+android_id+"','"+nazwaZdjecia+"')"
+    zapytanie = "INSERT INTO wspolrzedne (lat,lng,android_id,nazwaZdjecia, dokladnosc) VALUES ('"+lat+"','"+lng+"','"+android_id+"','"+nazwaZdjecia+"','"+dokladnosc+"')"
     
     c = conn.cursor()
     c.execute(zapytanie)
