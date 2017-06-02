@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, abort, make_response, request, send_file, redirect, url_for
+from flask import Flask, jsonify, abort, make_response, request, send_file, redirect, url_for, render_template
 from werkzeug.utils import secure_filename
 import sqlite3
 import hashlib
@@ -28,6 +28,13 @@ def get_task(task_id):
   if len(task) == 0:
     abort(404)
   return jsonify({'task':task[0]})
+
+@app.route('/pokaz', methods=['GET'])
+def pokaz():
+  conn = sqlite3.connect('InfoSmieciLasyDB.db')
+  cur = conn.execute('select id, lat, lng, ifnull(a.nazwa,w.android_id) as android_id, dataczas, dokladnosc  from wspolrzedne w left join androidy a on w.android_id = a.android_id order by id desc')
+  entries = [dict(id=row[0], lat=row[1], lng=row[2], androidid=row[3], dokladnosc=row[5], dataczas=row[4]) for row in cur.fetchall()]
+  return render_template('show_entries.html', entries=entries)
 
 @app.route('/dodaj', methods=['GET'])
 def get_dodaj():
